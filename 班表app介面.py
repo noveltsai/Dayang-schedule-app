@@ -43,17 +43,15 @@ except Exception:
 def get_gdrive_service():
     """使用 Secrets 建立 Drive 連線 (具備防錯機制)"""
     try:
-        # 嘗試讀取 GCP 金鑰
-        creds_info = st.secrets["gcp_service_account"]
-        creds = service_account.Credentials.from_service_account_info(creds_info)
-        scoped_creds = creds.with_scopes(['https://www.googleapis.com/auth/drive'])
-        return build('drive', 'v3', credentials=scoped_creds)
-    except KeyError:
-        # 如果找不到 GCP 金鑰，不要當機，回傳 None
-        return None
+        # ✅ 這裡前面有 4 個空白鍵
+        api_key = st.secrets["GEMINI_API_KEY"]
+        genai.configure(api_key=api_key)
+        st.sidebar.success("✅ Gemini AI 連線成功")
     except Exception as e:
-        st.sidebar.error(f"GCP 連線設定錯誤: {e}")
-        return None
+        # ✅ except 要退回跟 try 齊平，但它下方的程式碼一樣要縮排 4 個空白
+        st.sidebar.error(f"雲端金鑰讀取失敗原因：{e}") 
+        st.sidebar.warning("⚠️ 未偵測到系統金鑰")
+        # ... 其他程式碼
 
 def load_from_drive():
     """從 Google Drive 下載最新 JSON 資料"""
