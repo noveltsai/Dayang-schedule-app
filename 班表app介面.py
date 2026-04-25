@@ -43,24 +43,17 @@ else:
 # ==========================================
 
 def get_gdrive_service():
-    """使用 Secrets 建立 Drive 連線。
-
-    修正點：
-    - Streamlit Cloud 的 st.secrets 回傳 AttrDict，必須 dict() 轉換後才能傳給 from_service_account_info()
-    - TOML secrets 裡 private_key 的 \\n 在某些環境不會被展開，手動 replace 確保換行正確
-    """
     try:
-        creds_dict = dict(st.secrets["gcp_service_account"])
-        # 確保 private_key 的換行符號正確展開
-        if "private_key" in creds_dict:
-            creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
+        # json round-trip 確保 AttrDict 完全轉成 plain dict，同時處理所有 \n 問題
+        import json as _json
+        creds_dict = _json.loads(_json.dumps(dict(st.secrets["gcp_service_account"])))
         creds = service_account.Credentials.from_service_account_info(creds_dict)
         scoped_creds = creds.with_scopes(['https://www.googleapis.com/auth/drive'])
         return build('drive', 'v3', credentials=scoped_creds)
     except KeyError:
         return None
     except Exception as e:
-        st.sidebar.error(f"GCP 連線設定錯誤: {e}")
+        st.sidebar.error(f"GCP 連線錯誤: {e}")
         return None
 
 
