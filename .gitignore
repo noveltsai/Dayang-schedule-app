@@ -1,0 +1,23 @@
+# 機密金鑰 — 絕對不能上傳
+service_account.json
+.streamlit/secrets.toml
+
+# 暫存排班資料（存在 Drive，不需進 repo）
+schedule_data.json
+
+# 個人排班輸出
+*.csv
+
+# 班表原始圖片（通常很大）
+*.jpg
+*.jpeg
+*.png
+
+# Windows 系統檔
+desktop.ini
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.env
