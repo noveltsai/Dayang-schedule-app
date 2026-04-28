@@ -62,6 +62,22 @@ main { padding: 16px; max-width: 720px; margin: 0 auto; }
 }
 .name-num { color: #888; font-size: 12px; margin-right: 4px; }
 
+/* ── Month note (warning banner) ──────────────────────── */
+.month-note {
+  background: #fff7e0;
+  border: 1px solid #f0c850;
+  color: #7a5b00;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.month-note::before {
+  content: "⚠ ";
+  font-weight: 700;
+}
+
 /* ── Controls (toggle) ────────────────────────────────── */
 .controls {
   background: white; padding: 10px 14px; border-radius: 8px;

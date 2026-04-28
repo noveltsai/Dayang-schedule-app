@@ -1,7 +1,26 @@
 {
   "current": "2026-05",
   "months": [
-    { "year": 2026, "month": 4, "file": "2026-04.json" },
-    { "year": 2026, "month": 5, "file": "2026-05.json" }
+    {
+      "year": 2026,
+      "month": 2,
+      "file": "2026-02.json",
+      "note": "原圖傾斜，部分班別可能誤判，請對照原圖確認"
+    },
+    {
+      "year": 2026,
+      "month": 3,
+      "file": "2026-03.json"
+    },
+    {
+      "year": 2026,
+      "month": 4,
+      "file": "2026-04.json"
+    },
+    {
+      "year": 2026,
+      "month": 5,
+      "file": "2026-05.json"
+    }
   ]
 }

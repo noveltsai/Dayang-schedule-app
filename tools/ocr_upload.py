@@ -160,7 +160,10 @@ def build_prompt(year: int, month: int) -> str:
 - note: 任何補充（手寫看不清、印錯、可能塗改等）
 
 特別注意：
-- **駿宇**：他的手寫時段註記可能**超出格子往下溢半格到一格**。請把該欄位下方半格內的手寫文字也視為他的內容（駿宇下方通常沒人，安全）。
+- **駿宇**（常規兼職、通常排在班表最末列、下方無人）：他的手寫時段常**寫得很大、超出單一格子往下延伸**。
+  請忽略印刷格子線，**以駿宇姓名所在的橫列為基準，把該列每個日期欄位下方一直延伸到「下一位員工列的起點」之前的所有手寫文字，全部視為駿宇的內容**。
+  注意：此規則**只適用於駿宇**，其他人嚴格依格子辨識，不要把下一格的內容當成上一格的延伸。
+- **家棋**（健班常規）：手寫時段（如「健 1-9」=「13:00-21:00」）通常**寫在格子內**，請依該格內容辨識，不要往下延伸。
 - 不要遺漏休假格（休 / 必休 / 年假 / 補休 全部要列），店長要算時數。
 - 按班表「人 × 日」順序輸出，同一人的班次連續列出。"""
 
@@ -530,19 +533,36 @@ def main() -> int:
 
 
 def rebuild_index(data_dir: Path, year: int, month: int) -> None:
-    """掃 docs/data/ 下所有 YYYY-MM.json，重建 index.json（current 指向剛寫入的月份）。"""
+    """掃 docs/data/ 下所有 YYYY-MM.json，重建 index.json（current 指向剛寫入的月份）。
+    保留既有 note 欄位（人工標註不會被覆蓋）。"""
+    existing_notes: dict[str, str] = {}
+    idx_path = data_dir / "index.json"
+    if idx_path.exists():
+        try:
+            old = json.loads(idx_path.read_text(encoding="utf-8"))
+            for m in old.get("months", []):
+                if m.get("note"):
+                    key = f"{m['year']}-{m['month']:02d}"
+                    existing_notes[key] = m["note"]
+        except (json.JSONDecodeError, KeyError, TypeError):
+            pass
+
     months = []
     for p in sorted(data_dir.glob("[0-9][0-9][0-9][0-9]-[0-9][0-9].json")):
         try:
             y, m = p.stem.split("-")
-            months.append({"year": int(y), "month": int(m), "file": p.name})
+            entry = {"year": int(y), "month": int(m), "file": p.name}
+            note = existing_notes.get(p.stem)
+            if note:
+                entry["note"] = note
+            months.append(entry)
         except ValueError:
             continue
     index = {
         "current": f"{year}-{month:02d}",
         "months": months,
     }
-    (data_dir / "index.json").write_text(
+    idx_path.write_text(
         json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 

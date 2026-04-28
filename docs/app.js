@@ -216,9 +216,28 @@ function showSchedule() {
   const d = state.data;
   document.getElementById('title').textContent = `${d.year}年${d.month}月`;
   document.getElementById('footer-text').textContent = `© 達揚連鎖藥局 · ${d.year}/${String(d.month).padStart(2, '0')}`;
+  renderMonthNote();
   populateMonthSelect();
   populateUserSelect();
   renderCalendar();
+}
+
+function renderMonthNote() {
+  const el = document.getElementById('month-note');
+  if (!el) return;
+  const d = state.data;
+  let note = null;
+  if (state.index && Array.isArray(state.index.months)) {
+    const m = state.index.months.find(x => x.year === d.year && x.month === d.month);
+    if (m && m.note) note = m.note;
+  }
+  if (note) {
+    el.textContent = note;
+    el.hidden = false;
+  } else {
+    el.textContent = '';
+    el.hidden = true;
+  }
 }
 
 function populateMonthSelect() {
