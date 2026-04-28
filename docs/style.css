@@ -1,0 +1,199 @@
+/* ── Reset / Base ─────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+  background: #f7f8fa;
+  color: #222;
+  line-height: 1.5;
+}
+
+main { padding: 16px; max-width: 720px; margin: 0 auto; }
+
+.muted { color: #888; font-size: 13px; }
+.hint  { color: #888; font-size: 12px; margin-left: 4px; }
+
+/* ── Top bar ──────────────────────────────────────────── */
+#topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #1446A0; color: white;
+  padding: 12px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+#topbar h1 { font-size: 17px; font-weight: 700; }
+.topbar-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.ghost-btn {
+  background: rgba(255,255,255,0.15);
+  color: inherit; border: 1px solid rgba(255,255,255,0.3);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer;
+  font-family: inherit; font-size: 13px;
+}
+.ghost-btn:hover { background: rgba(255,255,255,0.25); }
+
+.user-select {
+  background: white; color: #1446A0;
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 6px 10px; border-radius: 6px;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; min-width: 96px;
+}
+
+/* ── Center msg (loading / error) ────────────────────── */
+.center-msg {
+  text-align: center; padding: 60px 16px;
+  color: #555;
+}
+
+/* ── Name picker ──────────────────────────────────────── */
+#picker h2 { font-size: 18px; margin-bottom: 16px; text-align: center; }
+#name-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.name-btn {
+  background: white; border: 1px solid #ddd;
+  padding: 14px 8px; border-radius: 8px;
+  font-size: 16px; cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.name-btn:hover, .name-btn:active {
+  background: #1446A0; color: white; border-color: #1446A0;
+}
+.name-num { color: #888; font-size: 12px; margin-right: 4px; }
+
+/* ── Controls (toggle) ────────────────────────────────── */
+.controls {
+  background: white; padding: 10px 14px; border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #eaecef;
+}
+.switch { display: flex; align-items: center; cursor: pointer; user-select: none; }
+.switch input { margin-right: 8px; transform: scale(1.2); }
+
+/* ── Calendar ─────────────────────────────────────────── */
+#calendar-wrap {
+  background: white; border-radius: 8px;
+  border: 1px solid #eaecef; overflow: hidden;
+}
+
+#weekday-header, #calendar {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+}
+#weekday-header {
+  background: #f0f3f7; font-weight: 700; font-size: 13px;
+  border-bottom: 1px solid #eaecef;
+}
+#weekday-header > div {
+  padding: 8px 4px; text-align: center;
+}
+#weekday-header .weekend { color: #d04545; }
+
+#calendar > .cell {
+  min-height: 78px; padding: 4px 4px 6px;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 12px; line-height: 1.3;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+#calendar > .cell:nth-child(7n) { border-right: 0; }
+#calendar > .cell.empty { background: #fafbfc; }
+#calendar > .cell.today { background: #fffbe6; }
+
+.cell .day-num {
+  font-weight: 600; font-size: 13px; color: #444;
+}
+.cell .day-num.weekend { color: #d04545; }
+
+.cell .badge {
+  display: inline-block;
+  padding: 2px 5px; border-radius: 4px;
+  font-size: 11px; font-weight: 600;
+  margin-top: 3px;
+  white-space: nowrap;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+}
+.badge.達揚 { background: #1E90FF; color: white; }
+.badge.日揚 { background: white; color: #222; border: 1px solid #FF8C00; }
+.badge.健揚 { background: #2E8B57; color: white; }
+.badge.off  { background: #F4C430; color: #C0392B; }
+
+.cell .hours {
+  font-size: 10px; color: #666; margin-top: 1px;
+}
+
+.cell .partners {
+  font-size: 10px; color: #666;
+  margin-top: 2px; line-height: 1.25;
+  word-break: break-all;
+}
+.cell .alone { font-size: 10px; color: #aaa; margin-top: 2px; }
+
+.cell .warn {
+  position: absolute; top: 2px; right: 3px;
+  color: #d04545; font-size: 12px;
+}
+
+/* ── Action buttons ───────────────────────────────────── */
+.action-buttons {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 16px;
+}
+.action-buttons button {
+  padding: 12px; border-radius: 8px;
+  font-family: inherit; font-size: 15px; font-weight: 600;
+  cursor: pointer; border: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.action-buttons .btn-note {
+  font-size: 11px; font-weight: 400; opacity: 0.75;
+}
+.action-buttons .primary {
+  background: #1446A0; color: white;
+}
+.action-buttons .primary:hover { background: #0e3580; }
+.action-buttons .secondary {
+  background: white; color: #1446A0;
+  border: 1px solid #1446A0;
+}
+.action-buttons .secondary:hover { background: #eef2fb; }
+
+/* ── Image output ─────────────────────────────────────── */
+#image-output {
+  margin-top: 20px; text-align: center;
+  background: white; border-radius: 8px; padding: 16px;
+  border: 1px solid #eaecef;
+}
+#image-output h3 { font-size: 14px; margin-bottom: 12px; color: #555; }
+#schedule-canvas {
+  max-width: 100%; height: auto; border: 1px solid #eee; border-radius: 4px;
+}
+.image-actions {
+  display: flex; gap: 8px; justify-content: center;
+  margin-top: 12px; flex-wrap: wrap;
+}
+.image-actions button {
+  padding: 10px 18px; border-radius: 8px;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; border: 0;
+}
+.image-actions .primary { background: #1446A0; color: white; }
+.image-actions .primary:hover { background: #0e3580; }
+.image-actions .ghost-btn { color: #555; background: #eee; border: 1px solid #ddd; }
+.image-actions .ghost-btn:hover { background: #e0e0e0; }
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  text-align: center; padding: 16px;
+  color: #888; font-size: 12px;
+}
+
+/* ── Mobile tightening ───────────────────────────────── */
+@media (max-width: 480px) {
+  main { padding: 8px; }
+  #calendar > .cell { min-height: 70px; padding: 3px; font-size: 11px; }
+  .cell .day-num { font-size: 12px; }
+  .cell .badge { font-size: 10px; padding: 2px 4px; }
+  .cell .hours, .cell .partners { font-size: 9.5px; }
+}

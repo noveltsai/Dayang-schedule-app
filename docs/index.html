@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>達揚藥局 個人班表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 主畫面 -->
+<header id="topbar" hidden>
+  <h1 id="title">達揚藥局</h1>
+  <div class="topbar-controls">
+    <select id="month-select" class="user-select" aria-label="選擇月份"></select>
+    <select id="user-select" class="user-select" aria-label="切換姓名"></select>
+  </div>
+</header>
+
+<main>
+  <!-- 載入中 -->
+  <section id="loading" class="center-msg">
+    <p>載入中…</p>
+  </section>
+
+  <!-- 錯誤 -->
+  <section id="error" class="center-msg" hidden>
+    <p>讀不到班表 😢</p>
+    <p class="muted">請聯絡管理員。</p>
+  </section>
+
+  <!-- 名單選擇 -->
+  <section id="picker" hidden>
+    <h2>請選擇您的姓名</h2>
+    <div id="name-list"></div>
+  </section>
+
+  <!-- 班表 -->
+  <section id="schedule" hidden>
+    <div class="controls">
+      <label class="switch">
+        <input type="checkbox" id="show-coworkers">
+        <span>顯示共班</span>
+        <span class="hint">（同店時段重疊 ≥ 5 小時）</span>
+      </label>
+    </div>
+
+    <div id="calendar-wrap">
+      <div id="weekday-header"></div>
+      <div id="calendar"></div>
+    </div>
+
+    <div class="action-buttons">
+      <button id="btn-image" class="primary">📱 產手機班表圖</button>
+      <button id="btn-csv" class="secondary">📅 CSV<span class="btn-note">電腦・可分色</span></button>
+      <button id="btn-ics" class="secondary">📲 ICS<span class="btn-note">手機・無法分類</span></button>
+    </div>
+
+    <!-- 產生的圖片 -->
+    <section id="image-output" hidden>
+      <h3>班表圖（按下方按鈕下載到手機）</h3>
+      <canvas id="schedule-canvas"></canvas>
+      <div class="image-actions">
+        <button id="btn-download-image" class="primary">⬇️ 下載圖片</button>
+        <button id="btn-close-image" class="ghost-btn">關閉</button>
+      </div>
+    </section>
+  </section>
+</main>
+
+<footer>
+  <span class="muted" id="footer-text">© 達揚連鎖藥局</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
