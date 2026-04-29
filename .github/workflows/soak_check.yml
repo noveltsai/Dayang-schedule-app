@@ -1,0 +1,26 @@
+name: Soak check (Telegram, yearly 5/4)
+
+# 提醒系統 soak 期檢查。每年 5/4 10:23 Taipei 推一則 Telegram，
+# 提醒菜包檢視提醒系統 + active_todos + 是否啟動週日彙整。
+#
+# 02:23 UTC = 10:23 Taipei
+
+on:
+  schedule:
+    - cron: '23 2 4 5 *'
+  workflow_dispatch: {}
+
+jobs:
+  soak-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Send soak-check message
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python tools/soak_check.py
