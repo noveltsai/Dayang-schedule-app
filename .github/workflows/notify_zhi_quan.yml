@@ -1,0 +1,34 @@
+name: Notify 志銓 shift (Telegram)
+
+# 上班前 30 分鐘提醒。Cron 用 UTC，4 個觸發點對應 Taipei 時區的 4 種上班時段：
+#   23:30 UTC  =  07:30 Taipei  →  全日揚 08:00
+#   00:30 UTC  =  08:30 Taipei  →  早 / 全 (達/健) 09:00
+#   05:30 UTC  =  13:30 Taipei  →  晚 (達/健) 14:00
+#   08:30 UTC  =  16:30 Taipei  →  志銓平日日揚晚班 17:00（特例）
+#
+# Python 腳本內有 ±20 min 容錯，能吸收 GitHub Actions cron 的延遲。
+
+on:
+  schedule:
+    - cron: '30 23 * * *'
+    - cron: '30 0 * * *'
+    - cron: '30 5 * * *'
+    - cron: '30 8 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run notifier
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python tools/notify_zhi_quan.py
